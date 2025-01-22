@@ -1,0 +1,74 @@
+.alert-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 1em;
+  font-family: 'Arial', sans-serif;
+  min-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.alert-table thead tr {
+  background-color: #009879;
+  color: #ffffff;
+  text-align: left;
+}
+
+.alert-table th,
+.alert-table td {
+  padding: 12px 15px;
+  border-right: 1px solid #dddddd; /* Add vertical cell line */
+}
+
+.alert-table th:last-child,
+.alert-table td:last-child {
+  border-right: none; /* Remove vertical line from the last cell */
+}
+
+.alert-table tbody tr {
+  border-bottom: 1px solid #dddddd;
+}
+
+.alert-table tbody tr:nth-of-type(even) {
+  background-color: #f3f3f3;
+}
+
+.alert-table tbody tr:last-of-type {
+  border-bottom: 2px solid #009879;
+}
+
+.alert-table tbody tr.active-row {
+  font-weight: bold;
+  color: #009879;
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  vertical-align: super; /* Make it superscript */
+  font-size: 0.8em;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 220px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%; /* Position the tooltip above the text */
+  left: 50%;
+  margin-left: -110px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
