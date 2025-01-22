@@ -8,6 +8,10 @@ This project is a application to visualize [SLO burn rate monitoring](https://sr
 > 
 > Burn rate is how fast, relative to the SLO, the service consumes the error budget.
 
+<div align="center">
+<img src="https://github.com/user-attachments/assets/d1f5f393-2810-4e2a-8b7d-0f0b1abdb0fd" alt="math+tables+charts" width="50%"/>
+</div>
+
 ## Developing
 
 ### `npm start`
@@ -19,15 +23,7 @@ The page will reload when you make changes.
 
 You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.
 It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.
-Your app is ready to be deployed!
