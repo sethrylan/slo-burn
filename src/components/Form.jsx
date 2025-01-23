@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { formatNumberWithLocale } from '../utils/format'
-import './Form.css'
 import { useSearchParamsState } from '../utils/state'
+import './Form.css'
 
 const Form = ({ onCalculate }) => {
   const [sloTarget, setSloTarget] = useSearchParamsState('slo', 99.9)

@@ -36,6 +36,12 @@ function burnRate(errorRate, errorBudget) {
   return errorRate / errorBudget
 }
 
+// Calculate the burn rate at the given error rate and error budget
+// See https://docs.datadoghq.com/service_management/service_level_objectives/burn_rate/#approach-2-theoretical-error-budget-consumption
+export function calculateBurnRate(sloTimeWindow, errorBudgetConsumed, longWindow) {
+  return ((sloTimeWindow * 24) * errorBudgetConsumed) / (longWindow / 60)
+}
+
 function App() {
   const [tableData, setTableData] = useState([]);
   const [graphData, setGraphData] = useState([]);
@@ -44,17 +50,17 @@ function App() {
     if (!sloTarget || !sloTimeWindow) return; // Ensure required fields are filled
     const errorBudget = 1 - sloTarget / 100;
 
-
     const burnRates = [
       // longWindow and shortWindow are in minutes, error budget consumed is in ratio, and burnRate is unitless
-      { name: "fast-burn", longWindow: 60, shortWindow: 5, burnRate: 14.4, errorBudgetConsumed: 0.02 , color: "#FF0000"}, // 1 hour, 5 minutes
-      { name: "mid-burn", longWindow: 360, shortWindow: 30, burnRate: 6, errorBudgetConsumed: 0.05, color: "#C64B8C"}, // 6 hours, 30 minutes
-      { name: "slow-burn", longWindow: 4320, shortWindow: 360, burnRate: 1, errorBudgetConsumed: 0.10, color: "#311432"} // 3 days, 6 hours
+      { name: "fast-burn", longWindow: 60, shortWindow: 5, errorBudgetConsumed: 0.02 , color: "#FF0000"}, // 1 hour, 5 minutes
+      { name: "mid-burn", longWindow: 360, shortWindow: 30, errorBudgetConsumed: 0.05, color: "#C64B8C"}, // 6 hours, 30 minutes
+      { name: "slow-burn", longWindow: 4320, shortWindow: 360, errorBudgetConsumed: 0.10, color: "#311432"} // 3 days, 6 hours
     ];
 
     burnRates.forEach(rate => {
       rate.totalErrors = totalEvents ? totalEvents * rate.errorBudgetConsumed : null;
       rate.errorRate = rate.burnRate * errorBudget;
+      rate.burnRate = calculateBurnRate(rate.sloTimeWindow, rate.errorBudgetConsumed, rate.longWindow);
     });
     setTableData(burnRates);
 
