@@ -1,4 +1,4 @@
-import { formatNumberWithLocale, formatMinutes } from './format'
+import { formatMinutes } from './format'
 import { expect, test } from 'vitest'
 
 test('should format minutes into days and hours without remainder', () => {
