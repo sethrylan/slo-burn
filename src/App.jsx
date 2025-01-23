@@ -61,6 +61,7 @@ function App() {
       rate.totalErrors = totalEvents ? totalEvents * rate.errorBudgetConsumed : null;
       rate.errorRate = rate.burnRate * errorBudget;
       rate.burnRate = calculateBurnRate(rate.sloTimeWindow, rate.errorBudgetConsumed, rate.longWindow);
+      rate.exhaustionIn = timeToConsumeSLO(rate.burnRate, sloTimeWindow * 1440);
     });
     setTableData(burnRates);
 
