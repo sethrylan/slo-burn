@@ -38,7 +38,7 @@ function burnRate(errorRate, errorBudget) {
 
 // Calculate the burn rate at the given error rate and error budget
 export function calculateBurnRate(sloTimeWindow, errorBudgetConsumed, longWindow) {
-  return (((sloTimeWindow * 24) * errorBudgetConsumed) / (longWindow / 60)).toFixed(1);
+  return Number((((sloTimeWindow * 24) * errorBudgetConsumed) / (longWindow / 60)).toFixed(1));
 }
 
 function App() {
