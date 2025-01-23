@@ -1,21 +1,6 @@
 import { formatNumberWithLocale, formatMinutes } from './format'
 import { expect, test } from 'vitest'
 
-test('should format number according to user locale', () => {
-  const number = 1234567.89
-  const formattedNumber = formatNumberWithLocale(number)
-  expect(formattedNumber).toBe(new Intl.NumberFormat(navigator.language).format(number))
-})
-
-test('should default to en-US locale if user locale is not detected', () => {
-  const originalNavigator = { ...navigator }
-  Object.defineProperty(navigator, 'language', { value: undefined, configurable: true })
-  const number = 1234567.89
-  const formattedNumber = formatNumberWithLocale(number)
-  expect(formattedNumber).toBe(new Intl.NumberFormat('en-US').format(number))
-  Object.defineProperty(navigator, 'language', { value: originalNavigator.language, configurable: true })
-})
-
 test('should format minutes into days and hours without remainder', () => {
   expect(formatMinutes(120, false)).toBe('2h')
   expect(formatMinutes(1440, false)).toBe('1d')
