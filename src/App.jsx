@@ -55,6 +55,7 @@ function App() {
     burnRates.forEach(rate => {
       rate.totalErrors = totalEvents ? totalEvents * rate.errorBudgetConsumed : null;
       rate.errorRate = rate.burnRate * errorBudget;
+      rate.exhaustionIn = timeToConsumeSLO(rate.burnRate, sloTimeWindow * 1440);
     });
     setTableData(burnRates);
 

@@ -34,6 +34,15 @@ const Table = ({ data }) => {
               </span>
             </span>
           </th>
+          <th>
+            Error Budget Exhausted In
+            <span className="tooltip">
+              <span className="tooltip-icon">?</span>
+              <span className="tooltiptext">
+                Assuming a continuous error rate, this is when the error budget will be exhausted.
+              </span>
+            </span>
+          </th>
           {data[0] && data[0].totalErrors && (
             <th>
               Total Errors
@@ -64,6 +73,7 @@ const Table = ({ data }) => {
               </span>
             </td>
             <td>{item.errorBudgetConsumed * 100}%</td>
+            <td>{formatMinutes(item.exhaustionIn)}</td>
             {item.totalErrors && (
               <td>
                 {item.totalErrors !== 'N/A'
