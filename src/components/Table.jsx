@@ -35,7 +35,7 @@ const Table = ({ data }) => {
             </span>
           </th>
           <th>
-            Error Budget Exhausted In
+            Budget Exhausted In
             <span className="tooltip">
               <span className="tooltip-icon">?</span>
               <span className="tooltiptext">
