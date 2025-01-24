@@ -5,7 +5,7 @@ import './Form.css';
 
 const Form = ({ onCalculate }) => {
   const [sloTarget, setSloTarget] = useSearchParamsState('slo', 99.9);
-  const [sloTimeWindow, setSloTimeWindow] = useSearchParamsState('days', 30);
+  const [sloTimeWindow, setSloTimeWindow] = useSearchParamsState('days', '30');
   const [totalEvents, setTotalEvents] = useSearchParamsState('events', '');
 
   useEffect(() => {
