@@ -30,7 +30,7 @@ const Table = ({ data }) => {
             <span className="tooltip">
               <span className="tooltip-icon">?</span>
               <span className="tooltiptext">
-                This is the error budget consumed before alerting.
+                This is the error budget consumed in the long window before alerting; also, if provided, the number of errors seen in the long window.
               </span>
             </span>
           </th>
@@ -43,18 +43,6 @@ const Table = ({ data }) => {
               </span>
             </span>
           </th>
-          {data[0] && data[0].totalErrors && (
-            <th>
-              Total Errors
-              <span className="tooltip">
-                <span className="tooltip-icon">?</span>
-                <span className="tooltiptext">
-                  This is the threshold for errors seen in the long window before
-                  alerting.
-                </span>
-              </span>
-            </th>
-          )}
         </tr>
       </thead>
       <tbody>
@@ -72,15 +60,14 @@ const Table = ({ data }) => {
                 </span>
               </span>
             </td>
-            <td>{item.errorBudgetConsumed * 100}%</td>
+            <td>
+              {item.errorBudgetConsumed * 100}%
+              {item.totalErrors 
+                  ? ' (' + formatNumberWithLocale(item.totalErrors) + ' errors)'
+                  : ''
+              }
+            </td>
             <td>{formatMinutes(item.exhaustionIn)}</td>
-            {item.totalErrors && (
-              <td>
-                {item.totalErrors !== 'N/A'
-                  ? formatNumberWithLocale(item.totalErrors)
-                  : 'N/A'}
-              </td>
-            )}
           </tr>
         ))}
       </tbody>
