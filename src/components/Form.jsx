@@ -89,7 +89,7 @@ const Form = ({ onCalculate }) => {
           </label>
         </div>
       </div>
-      <details className="additional-settings">
+      <details className="additional-settings" open={totalEvents !== ''}>
         <summary>Additional Settings</summary>
         <div className="form-group">
           <label htmlFor="totalEvents">Total Events</label>
