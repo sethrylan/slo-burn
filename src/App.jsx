@@ -46,7 +46,7 @@ function App() {
   const [graphData, setGraphData] = useState([]);
 
   const calculateAlerts = useCallback(({ sloTarget, sloTimeWindow, totalEvents }) => {
-    if (!sloTarget || !sloTimeWindow) return; // Ensure required fields are filled
+    if (!sloTarget || !sloTimeWindow) return;
     const errorBudget = 1 - sloTarget / 100;
 
     // Theoretical error budget consumption, based on https://docs.datadoghq.com/service_management/service_level_objectives/burn_rate/
@@ -67,7 +67,7 @@ function App() {
     ];
 
     burnRates.forEach(rate => {
-      rate.totalErrors = totalEvents ? totalEvents * rate.errorBudgetConsumed : null;
+      rate.totalErrors = totalEvents ? totalEvents * errorBudget * rate.errorBudgetConsumed : null;
       rate.errorRate = rate.burnRate * errorBudget;
       rate.burnRate = calculateBurnRate(sloTimeWindow, rate.errorBudgetConsumed, rate.longWindow);
       rate.exhaustionIn = timeToConsumeSLO(rate.burnRate, sloTimeWindow * 1440);
