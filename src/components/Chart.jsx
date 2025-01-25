@@ -19,7 +19,7 @@ const Chart = ({ series }) => {
         <span className="tooltip">
           <span className="tooltip-icon">*</span>
           <span className="tooltiptext">
-            Assuming a continuous error rate, the time to first detection equals the time to consume
+            Assuming a continuous error rate, the time to detection equals the time to consume
             X% of error budget, where X is taken from the table above
             <br />
             <math display="inline">

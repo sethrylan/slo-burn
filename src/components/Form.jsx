@@ -45,11 +45,11 @@ const Form = ({ onCalculate }) => {
           onChange={handleSloTargetChange}
           required
         />
-        {sloTarget < 96 && (
+        {sloTarget <= 95 && (
           <span className="warning-tooltip">
             ⚠️
             <span className="tooltiptext">
-              The calculations on this page are suitable for SLOs ≥96%
+              SLO burn rates are well-tested for SLO targets &gt;95%. For lower targets, this calculator uses adjusted values.
             </span>
           </span>
         )}
