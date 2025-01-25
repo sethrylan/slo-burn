@@ -45,7 +45,8 @@ const Chart = ({ series }) => {
             domain={['auto', 'auto']}
             dataKey="errorRate"
             type="number"
-            tickFormatter={(value) => value * 100 + '%'}
+            allowDuplicatedCategory={false}
+            tickFormatter={(value) => (value * 100) + '%'}
           />
           <YAxis
             scale="log"
@@ -60,7 +61,7 @@ const Chart = ({ series }) => {
           />
           <Tooltip
             formatter={(value) => formatMinutes(value)}
-            labelFormatter={(value) => `${value * 100}%`}
+            labelFormatter={(value) => `${(value * 100).toFixed(2)}%`}
           />
           <Legend />
           {series.map((s) => (
