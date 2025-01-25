@@ -13,14 +13,14 @@ import { formatMinutes } from '../utils/format'
 
 const Chart = ({ series }) => {
   return (
-    <div style={{ margin: '40px auto', maxWidth: '800px' }}>
+    <div style={{ margin: '40px 80px 40px 80px' }}>
       <h2>
         Detection Times
         <span className="tooltip">
           <span className="tooltip-icon">*</span>
           <span className="tooltiptext">
-            Assuming a continuous error rate, the time to first detection is time to burn
-            X% of error budget, from the table above
+            Assuming a continuous error rate, the time to first detection equals the time to consume
+            X% of error budget, where X is taken from the table above
             <br />
             <math display="inline">
               <msub>
@@ -46,7 +46,7 @@ const Chart = ({ series }) => {
             dataKey="errorRate"
             type="number"
             allowDuplicatedCategory={false}
-            tickFormatter={(value) => (value * 100) + '%'}
+            tickFormatter={(value) => Number((value * 100).toFixed(2)) + '%'}
           />
           <YAxis
             scale="log"
