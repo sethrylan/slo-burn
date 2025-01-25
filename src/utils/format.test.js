@@ -7,7 +7,9 @@ test('should format minutes into days and hours without remainder', () => {
 })
 
 test('should format minutes into days and hours', () => {
+  expect(formatMinutes(NaN)).toBe('0m')
   expect(formatMinutes(0)).toBe('0m')
+  expect(formatMinutes(1.000001)).toBe('1m')
   expect(formatMinutes(5)).toBe('5m')
   expect(formatMinutes(30)).toBe('30m')
   expect(formatMinutes(45)).toBe('45m')
