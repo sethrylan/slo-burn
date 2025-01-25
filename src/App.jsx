@@ -37,11 +37,9 @@ const errorRates = [
   0.0150,
   0.0175,
   0.02,
-  0.0250,
+  0.025,
   0.030,
-  0.035,
   0.040,
-  0.045,
   0.050,
   0.06,
   0.07,
@@ -50,7 +48,12 @@ const errorRates = [
   0.10,
   0.15,
   0.20,
-  0.250,
+  0.25,
+  0.30,
+  0.35,
+  0.40,
+  0.45,
+  0.50,
 ]
 
 // Calculate the time it takes to consume the error budget at the given burn rate
@@ -76,9 +79,10 @@ function App() {
   const calculateAlerts = useCallback(({ sloTarget, sloTimeWindow, totalEvents }) => {
     if (!sloTarget || !sloTimeWindow) return;
     const errorBudget = 1 - sloTarget / 100;
-
-    // Theoretical error budget consumption, based on https://docs.datadoghq.com/service_management/service_level_objectives/burn_rate/
+  
     var errorBudgets;
+    // Theoretical error budget consumption
+    // See https://docs.datadoghq.com/service_management/service_level_objectives/burn_rate/
     if (sloTimeWindow < 14) {
       errorBudgets = [.10, .20, .40];
     } else if (sloTimeWindow > 45) {
@@ -86,6 +90,13 @@ function App() {
     } else {
       errorBudgets = [.02, .05, .10];
     }
+
+    if (sloTarget <= 95) {
+      // for ≤95% SLOs, the normal recommendations don't apply. We can either use a smaller value for theoretical error
+      // budget consumed, or a higher value for the long window.
+      errorBudgets = errorBudgets.map(e => Number((e * .25).toFixed(4)));
+    }
+
 
     const burnRates = [
       // longWindow and shortWindow are in minutes, error budget consumed is in ratio, and burnRate is unitless
