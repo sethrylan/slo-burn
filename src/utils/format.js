@@ -7,6 +7,7 @@ export const formatMinutes = (minutes, withRemainder = true) => {
   if (Number.isNaN(minutes)) {
     return '0m'
   }
+  minutes = Math.floor(minutes)
   if (minutes < 60) {
     return `${Math.floor(minutes)}m`
   } else if (minutes < 1440) {
