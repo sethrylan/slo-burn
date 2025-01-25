@@ -53,10 +53,9 @@ const Table = ({ data }) => {
             <td>
               {item.burnRate}
               <span className="tooltip">
-                <span className="tooltip-icon">×</span>
+                <span className="tooltip-icon">*</span>
                 <span className="tooltiptext">
-                  Assuming a continuous error rate, this is equivalent to an error rate of{' '}
-                  {(item.errorRate * 100).toFixed(2)}%
+                  Assuming a continuous error rate, this is equivalent to an error rate of {(item.errorRate * 100).toFixed(2)}%
                 </span>
               </span>
             </td>
