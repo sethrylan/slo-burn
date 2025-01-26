@@ -6,13 +6,13 @@ import './Form.css';
 const Form = ({ onCalculate }) => {
   const [sloTarget, setSloTarget] = useSearchParamsState('slo', 99.9);
   const [sloTimeWindow, setSloTimeWindow] = useSearchParamsState('days', '30');
-  const [totalEvents, setTotalEvents] = useSearchParamsState('events', '');
+  const [events, setEvents] = useSearchParamsState('events', '');
 
   useEffect(() => {
-    // Convert formatted total events to a numeric value for calculation
-    const numericTotalEvents = totalEvents.replace(/[^0-9.]/g, '');
-    onCalculate({ sloTarget, sloTimeWindow, totalEvents: numericTotalEvents });
-  }, [sloTarget, sloTimeWindow, totalEvents, onCalculate]);
+    // Convert formatted total events (in millions) to a numeric value for calculation
+    const numericEvents = events.replace(/[^0-9.]/g, '') * 1000000;
+    onCalculate({ sloTarget, sloTimeWindow, events: numericEvents});
+  }, [sloTarget, sloTimeWindow, events, onCalculate]);
 
   const handleSloTargetChange = (e) => {
     setSloTarget(e.target.value);
@@ -22,12 +22,12 @@ const Form = ({ onCalculate }) => {
     setSloTimeWindow(e.target.value);
   };
 
-  const handleTotalEventsChange = (e) => {
+  const handleEventsChange = (e) => {
     const value = e.target.value.replace(/[^0-9.]/g, '');
     if (!isNaN(value) && value !== '') {
-      setTotalEvents(formatNumberWithLocale(value));
+      setEvents(formatNumberWithLocale(value));
     } else {
-      setTotalEvents('');
+      setEvents('');
     }
   };
 
@@ -49,7 +49,7 @@ const Form = ({ onCalculate }) => {
           <span className="warning-tooltip">
             ⚠️
             <span className="tooltiptext">
-              SLO burn rates are well-tested for SLO targets &gt;95%. For lower targets, this calculator uses adjusted values.
+              SLO burn rates are well-tested for SLO targets &gt;95%. For lower targets, this calculator uses adjusted values, which are suitable for SLOs as low as 85%.
             </span>
           </span>
         )}
@@ -89,16 +89,24 @@ const Form = ({ onCalculate }) => {
           </label>
         </div>
       </div>
-      <details className="additional-settings" open={totalEvents !== ''}>
+      <details className="additional-settings" open={events !== ''}>
         <summary>Additional Settings</summary>
         <div className="form-group">
-          <label htmlFor="totalEvents">Total Events</label>
+          <label htmlFor="events">
+            Events (Millions)
+            <span className="tooltip">
+              <span className="tooltip-icon"><sup>?</sup></span>
+              <span className="tooltiptext">
+                The total number of requests/hits/events expected in the SLO window
+              </span>
+            </span>
+          </label>
           <input
             type="text"
-            id="totalEvents"
-            name="totalEvents"
-            value={totalEvents}
-            onChange={handleTotalEventsChange}
+            id="events"
+            name="events"
+            value={events}
+            onChange={handleEventsChange}
           />
         </div>
       </details>
