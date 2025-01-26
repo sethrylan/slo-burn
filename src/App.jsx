@@ -68,6 +68,7 @@ function burnRate(errorRate, errorBudget) {
 }
 
 // Calculate the burn rate at the given error rate and error budget
+// longWindow is in minutes, sloTimeWindow is in days
 export function calculateBurnRate(sloTimeWindow, errorBudgetConsumed, longWindow) {
   return Number((((sloTimeWindow * 24) * errorBudgetConsumed) / (longWindow / 60)).toFixed(1));
 }
@@ -76,37 +77,37 @@ function App() {
   const [tableData, setTableData] = useState([]);
   const [graphData, setGraphData] = useState([]);
 
-  const calculateAlerts = useCallback(({ sloTarget, sloTimeWindow, totalEvents }) => {
+  const calculateAlerts = useCallback(({ sloTarget, sloTimeWindow, events }) => {
     if (!sloTarget || !sloTimeWindow) return;
     const errorBudget = 1 - sloTarget / 100;
   
-    var errorBudgets;
+    var budgetConsumed;
     // Theoretical error budget consumption
-    // See https://docs.datadoghq.com/service_management/service_level_objectives/burn_rate/
+    // See https://docs.datadoghq.com/service_management/service_level_objectives/burn_rate
     if (sloTimeWindow < 14) {
-      errorBudgets = [.10, .20, .40];
+      budgetConsumed = [.10, .20, .40];
     } else if (sloTimeWindow > 45) {
-      errorBudgets = [.01, .03, .05];
+      budgetConsumed = [.01, .03, .05];
     } else {
-      errorBudgets = [.02, .05, .10];
+      budgetConsumed = [.02, .05, .10];
     }
-
-    if (sloTarget <= 95) {
-      // for ≤95% SLOs, the normal recommendations don't apply. We can either use a smaller value for theoretical error
-      // budget consumed, or a higher value for the long window.
-      errorBudgets = errorBudgets.map(e => Number((e * .25).toFixed(4)));
-    }
-
 
     const burnRates = [
       // longWindow and shortWindow are in minutes, error budget consumed is in ratio, and burnRate is unitless
-      { name: "fast-burn", longWindow: 60, shortWindow: 5, errorBudgetConsumed: errorBudgets[0] , color: "#FF0000"}, // 1 hour, 5 minutes
-      { name: "mid-burn", longWindow: 360, shortWindow: 30, errorBudgetConsumed: errorBudgets[1], color: "#C64B8C"}, // 6 hours, 30 minutes
-      { name: "slow-burn", longWindow: 1440, shortWindow: 120, errorBudgetConsumed: errorBudgets[2], color: "#311432"} // 3 days, 6 hours
+      { name: "fast-burn", longWindow: 60, shortWindow: 5, errorBudgetConsumed: budgetConsumed[0] , color: "#FF0000"}, // 1 hour, 5 minutes
+      { name: "mid-burn", longWindow: 360, shortWindow: 30, errorBudgetConsumed: budgetConsumed[1], color: "#C64B8C"}, // 6 hours, 30 minutes
+      { name: "slow-burn", longWindow: 1440, shortWindow: 120, errorBudgetConsumed: budgetConsumed[2], color: "#311432"} // 1 days, 2 hours
     ];
 
     burnRates.forEach(rate => {
-      rate.totalErrors = totalEvents ? totalEvents * errorBudget * rate.errorBudgetConsumed : null;
+      // for ≤95% SLOs, the normal recommendations don't apply. We can either use a smaller value for theoretical error
+      // budget consumed, or a higher value for the long window.
+      // Using a 1/4 reduction in theoretical-error-budget-consumed supports 30day SLOs as low as 72.22%.
+      if (sloTarget <= 95) {
+        rate.errorBudgetConsumed = Number((.25 * rate.errorBudgetConsumed).toFixed(4));
+      }
+
+      rate.errors = events ? events * errorBudget * rate.errorBudgetConsumed : null;
       rate.burnRate = calculateBurnRate(sloTimeWindow, rate.errorBudgetConsumed, rate.longWindow);
       rate.errorRate = rate.burnRate * errorBudget;
       rate.exhaustionIn = timeToConsumeSLO(rate.burnRate, sloTimeWindow * 1440);

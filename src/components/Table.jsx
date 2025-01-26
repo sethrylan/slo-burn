@@ -14,7 +14,8 @@ const Table = ({ data }) => {
             <span className="tooltip">
               <span className="tooltip-icon">?</span>
               <span className="tooltiptext">
-                This is the error budget consumed in the long window before alerting; also, if provided, the number of errors seen in the long window.
+                This is the error budget consumed in the long window before alerting
+                { data[0] && data[0].errors && '; or, the equivalent number of errors seen in the long window before alerting.' }
               </span>
             </span>
           </th>
@@ -58,10 +59,7 @@ const Table = ({ data }) => {
             <td>{formatMinutes(item.shortWindow)}</td>
             <td>
               {item.errorBudgetConsumed * 100}%
-              {item.totalErrors 
-                  ? ' (' + formatNumberWithLocale(item.totalErrors) + ' errors)'
-                  : ''
-              }
+              {item.errors && ' (' + formatNumberWithLocale(item.errors) + ' errors)'}
             </td>
             <td>
               {item.burnRate}

@@ -1,5 +1,6 @@
 import React from 'react'
 import {
+  Label,
   LineChart,
   Line,
   XAxis,
@@ -43,27 +44,33 @@ const Chart = ({ series }) => {
           <XAxis
             scale="log"
             domain={['auto', 'auto']}
+            height={70}
             dataKey="errorRate"
             type="number"
             allowDuplicatedCategory={false}
             tickFormatter={(value) => Number((value * 100).toFixed(2)) + '%'}
-          />
+          >
+            <Label
+              value="Error Rate"
+              // position="insideBottomRight"
+            />
+          </XAxis>
           <YAxis
             scale="log"
             domain={['auto', 'dataMax']}
             width={100}
-            label={{
-              value: 'Detection Time (minutes)',
-              angle: -90,
-              position: 'insideLeft',
-            }}
             tickFormatter={(value) => formatMinutes(value)}
-          />
+          >
+            <Label
+              value="Detection Time (minutes)"
+              angle={-90}
+              position="insideLeft"
+            />
+          </YAxis>
           <Tooltip
             formatter={(value) => formatMinutes(value)}
             labelFormatter={(value) => `${(value * 100).toFixed(2)}%`}
           />
-          <Legend />
           {series.map((s) => (
             <Line
               dataKey="minutes"
@@ -73,6 +80,11 @@ const Chart = ({ series }) => {
               stroke={s.color}
             />
           ))}
+          <Legend 
+            layout="horizontal"
+            align="center"
+            verticalAlign="top"
+          />
         </LineChart>
       </ResponsiveContainer>
     </div>
