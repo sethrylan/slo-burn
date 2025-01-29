@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { formatNumberWithLocale } from '../utils/format';
+import React, { useEffect, useState } from 'react';
+import { formatMinutes, formatNumberWithLocale } from '../utils/format';
 import { useSearchParamsState } from '../utils/state';
 import './Form.css';
 
@@ -7,12 +7,13 @@ const Form = ({ onCalculate }) => {
   const [sloTarget, setSloTarget] = useSearchParamsState('slo', 99.9);
   const [sloTimeWindow, setSloTimeWindow] = useSearchParamsState('days', '30');
   const [events, setEvents] = useSearchParamsState('events', '');
+  const [isUptime, setIsUptime] = useState(false);
 
   useEffect(() => {
     // Convert formatted total events (in millions) to a numeric value for calculation
     const numericEvents = events.replace(/[^0-9.]/g, '') * 1000000;
-    onCalculate({ sloTarget, sloTimeWindow, events: numericEvents});
-  }, [sloTarget, sloTimeWindow, events, onCalculate]);
+    onCalculate({ sloTarget, sloTimeWindow, events: numericEvents, isUptime});
+  }, [sloTarget, sloTimeWindow, events, isUptime, onCalculate]);
 
   const handleSloTargetChange = (e) => {
     setSloTarget(e.target.value);
@@ -30,6 +31,13 @@ const Form = ({ onCalculate }) => {
       setEvents('');
     }
   };
+
+  const handleIsUptimeChange = (e) => {
+    setIsUptime(e.target.checked);
+    if (e.target.checked) {
+      setEvents('');
+    }
+  }
 
   return (
     <form className="alert-form">
@@ -89,8 +97,27 @@ const Form = ({ onCalculate }) => {
           </label>
         </div>
       </div>
-      <details className="additional-settings" open={events !== ''}>
+      <details className="additional-settings" open={events !== '' || isUptime}>
         <summary>Additional Settings</summary>
+        <div className="form-group">
+          <label htmlFor="uptimeSlo">
+            Uptime SLO
+            <span className="tooltip">
+              <span className="tooltip-icon"><sup>?</sup></span>
+              <span className="tooltiptext">
+                Check this box if you are calculating an uptime SLO, with an error 
+                budget of {formatMinutes((1 - (sloTarget / 100)) * (1440*sloTimeWindow))}
+              </span>
+            </span>
+          </label>
+          <input
+            type="checkbox"
+            id="uptimeSlo"
+            name="uptimeSlo"
+            checked={isUptime}
+            onChange={handleIsUptimeChange}
+          />
+        </div>
         <div className="form-group">
           <label htmlFor="events">
             Events (Millions)
@@ -107,6 +134,7 @@ const Form = ({ onCalculate }) => {
             name="events"
             value={events}
             onChange={handleEventsChange}
+            disabled={isUptime}
           />
         </div>
       </details>

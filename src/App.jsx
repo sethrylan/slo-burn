@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from 'react'
+import { formatNumberWithLocale } from './utils/format'
 import Form from './components/Form'
 import Table from './components/Table'
 import Chart from './components/Chart'
@@ -77,7 +78,7 @@ function App() {
   const [tableData, setTableData] = useState([]);
   const [graphData, setGraphData] = useState([]);
 
-  const calculateAlerts = useCallback(({ sloTarget, sloTimeWindow, events }) => {
+  const calculateAlerts = useCallback(({ sloTarget, sloTimeWindow, events, isUptime }) => {
     if (!sloTarget || !sloTimeWindow) return;
     const errorBudget = 1 - sloTarget / 100;
   
@@ -107,7 +108,15 @@ function App() {
         rate.errorBudgetConsumed = Number((.25 * rate.errorBudgetConsumed).toFixed(4));
       }
 
-      rate.errors = events ? events * errorBudget * rate.errorBudgetConsumed : null;
+      if (isUptime) {
+        rate.consumed = Number((errorBudget * sloTimeWindow * 1440 * rate.errorBudgetConsumed).toFixed(1)) + ' minutes';
+        console.log(rate.consumed)
+      }
+
+      if (events) {
+        rate.consumed = formatNumberWithLocale(events * errorBudget * rate.errorBudgetConsumed) + ' events';
+      }
+
       rate.burnRate = calculateBurnRate(sloTimeWindow, rate.errorBudgetConsumed, rate.longWindow);
       rate.errorRate = rate.burnRate * errorBudget;
       rate.exhaustionIn = timeToConsumeSLO(rate.burnRate, sloTimeWindow * 1440);
