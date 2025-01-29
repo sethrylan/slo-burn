@@ -1,5 +1,5 @@
 import React from 'react'
-import { formatNumberWithLocale, formatMinutes } from '../utils/format'
+import { formatMinutes } from '../utils/format'
 import './Table.css'
 
 const Table = ({ data }) => {
@@ -15,7 +15,7 @@ const Table = ({ data }) => {
               <span className="tooltip-icon">?</span>
               <span className="tooltiptext">
                 This is the error budget consumed in the long window before alerting
-                { data[0] && data[0].errors && '; or, the equivalent number of errors seen in the long window before alerting.' }
+                { data[0] && data[0].consumed && '; or, the equivalent errors/downtime seen in the long window before alerting.' }
               </span>
             </span>
           </th>
@@ -59,7 +59,7 @@ const Table = ({ data }) => {
             <td>{formatMinutes(item.shortWindow)}</td>
             <td>
               {item.errorBudgetConsumed * 100}%
-              {item.errors && ' (' + formatNumberWithLocale(item.errors) + ' errors)'}
+              {item.consumed && ' (' + item.consumed + ')'}
             </td>
             <td>
               {item.burnRate}
