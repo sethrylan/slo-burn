@@ -1,4 +1,4 @@
-name: CI
+name: ci
 
 on:
   push:
@@ -11,8 +11,7 @@ permissions:
   pull-requests: write
 
 jobs:
-  build:
-    name: Build and Test
+  test:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -25,7 +24,12 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
-      - name: Test
-        run: npm test
-      - name: Build
-        run: npm run build
+      - run: npm test
+      - run: npm run build
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: npm ci
+      - run: npm run lint
