@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { formatMinutes, formatNumberWithLocale } from '../utils/format';
+import { formatMinutes } from '../utils/format';
 import { useSearchParamsState } from '../utils/state';
 import './Form.css';
 
@@ -10,9 +10,9 @@ const Form = ({ onCalculate }) => {
   const [isUptime, setIsUptime] = useState(false);
 
   useEffect(() => {
-    // Convert formatted total events (in millions) to a numeric value for calculation
-    const numericEvents = events.replace(/[^0-9.]/g, '') * 1000000;
-    onCalculate({ sloTarget, sloTimeWindow, events: numericEvents, isUptime});
+    // Convert decimal string input (in millions) to numeric value for calculation
+    const numericEvents = parseFloat(events) * 1000000 || 0;
+    onCalculate({ sloTarget, sloTimeWindow, events: numericEvents, isUptime });
   }, [sloTarget, sloTimeWindow, events, isUptime, onCalculate]);
 
   const handleSloTargetChange = (e) => {
@@ -24,12 +24,8 @@ const Form = ({ onCalculate }) => {
   };
 
   const handleEventsChange = (e) => {
-    const value = e.target.value.replace(/[^0-9.]/g, '');
-    if (!isNaN(value) && value !== '') {
-      setEvents(formatNumberWithLocale(value));
-    } else {
-      setEvents('');
-    }
+    const sanitizedValue = e.target.value.replace(/[^0-9.]/g, '');
+    setEvents(sanitizedValue);
   };
 
   const handleIsUptimeChange = (e) => {
@@ -37,7 +33,7 @@ const Form = ({ onCalculate }) => {
     if (e.target.checked) {
       setEvents('');
     }
-  }
+  };
 
   return (
     <form className="alert-form">
@@ -106,7 +102,7 @@ const Form = ({ onCalculate }) => {
               <span className="tooltip-icon"><sup>?</sup></span>
               <span className="tooltiptext">
                 Check this box if you are calculating an uptime SLO, with an error 
-                budget of {formatMinutes((1 - (sloTarget / 100)) * (1440*sloTimeWindow))}
+                budget of {formatMinutes((1 - (sloTarget / 100)) * (1440 * sloTimeWindow))}
               </span>
             </span>
           </label>
