@@ -30,6 +30,10 @@
     "semi": false,
     "singleQuote": true
   },
+  "engines" : { 
+    "npm" : ">=10",
+    "node" : ">=18.0.0"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
