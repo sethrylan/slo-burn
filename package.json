@@ -5,7 +5,7 @@
   "homepage": "https://sethrylan.org/slo-burn",
   "dependencies": {
     "@vitejs/plugin-react": "^4.3.4",
-    "globals": "^15.14.0",
+    "globals": "^15.15.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^7.1.5",
