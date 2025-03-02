@@ -11,8 +11,11 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { formatMinutes } from '../utils/format'
+import { useTheme } from '../utils/ThemeContext'
 
 const Chart = ({ series }) => {
+  const { darkMode } = useTheme();
+  
   return (
     <div style={{ margin: '40px 80px 40px 80px' }}>
       <h2>
@@ -40,7 +43,10 @@ const Chart = ({ series }) => {
       </h2>
       <ResponsiveContainer width="100%" height={800}>
         <LineChart>
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid 
+            strokeDasharray="3 3" 
+            stroke={darkMode ? "#444" : "#ddd"}
+          />
           <XAxis
             scale="log"
             domain={['auto', 'auto']}
@@ -49,10 +55,11 @@ const Chart = ({ series }) => {
             type="number"
             allowDuplicatedCategory={false}
             tickFormatter={(value) => Number((value * 100).toFixed(2)) + '%'}
+            tick={{ fill: darkMode ? "#f0f0f0" : "#333" }}
           >
             <Label
               value="Error Rate"
-              // position="insideBottomRight"
+              style={{ fill: darkMode ? "#f0f0f0" : "#333" }}
             />
           </XAxis>
           <YAxis
@@ -60,16 +67,23 @@ const Chart = ({ series }) => {
             domain={['auto', 'dataMax']}
             width={100}
             tickFormatter={(value) => formatMinutes(value)}
+            tick={{ fill: darkMode ? "#f0f0f0" : "#333" }}
           >
             <Label
               value="Detection Time (minutes)"
               angle={-90}
               position="insideLeft"
+              style={{ fill: darkMode ? "#f0f0f0" : "#333" }}
             />
           </YAxis>
           <Tooltip
             formatter={(value) => formatMinutes(value)}
             labelFormatter={(value) => `${(value * 100).toFixed(2)}%`}
+            contentStyle={{ 
+              backgroundColor: darkMode ? "#333" : "#fff",
+              color: darkMode ? "#f0f0f0" : "#333",
+              border: `1px solid ${darkMode ? "#444" : "#ddd"}`
+            }}
           />
           {series.map((s) => (
             <Line
@@ -84,6 +98,7 @@ const Chart = ({ series }) => {
             layout="horizontal"
             align="center"
             verticalAlign="top"
+            wrapperStyle={{ color: darkMode ? "#f0f0f0" : "#333" }}
           />
         </LineChart>
       </ResponsiveContainer>

@@ -5,10 +5,10 @@
   max-width: 300px;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--card-border);
   border-radius: 8px;
-  background-color: #f9f9f9;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--card-bg);
+  box-shadow: 0 0 10px var(--shadow-color);
 }
 
 .form-group {
@@ -21,22 +21,25 @@
   font-weight: bold;
   display: flex;
   align-items: center;
+  color: var(--text-color);
 }
 
 .form-group input {
   padding: 10px;
-  border: 1px solid #ccc;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
   font-size: 1em;
   flex: 1;
   max-width: 80px;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
 
 button {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
-  background-color: #009879;
+  background-color: var(--primary-color);
   color: #fff;
   font-size: 1em;
   cursor: pointer;
@@ -44,7 +47,7 @@ button {
 }
 
 button:hover {
-  background-color: #007f67;
+  filter: brightness(1.1);
 }
 
 .additional-settings summary {
@@ -66,8 +69,8 @@ button:hover {
 .warning-tooltip .tooltiptext {
   visibility: hidden;
   width: 220px;
-  background-color: #555;
-  color: #fff;
+  background-color: var(--tooltip-bg);
+  color: var(--tooltip-text);
   text-align: center;
   border-radius: 6px;
   padding: 5px;
