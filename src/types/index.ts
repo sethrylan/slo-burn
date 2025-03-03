@@ -31,5 +31,5 @@ export interface ChartProps {
       errorRate: number;
       minutes: number;
     }[];
-  }
-}[];
+  }[];
+}

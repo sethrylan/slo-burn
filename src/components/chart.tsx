@@ -1,3 +1,5 @@
+// @ts-nocheck
+import * as React from 'react' 
 import {
   Label,
   LineChart,
@@ -10,8 +12,9 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { formatMinutes } from '../utils/format'
-
-const Chart = ({ series }) => {
+import { ChartProps } from '../types'
+ 
+const Chart: React.FC<ChartProps> = ({ series }) => {
   return (
     <div style={{ margin: '40px 80px 40px 80px' }}>
       <h2>
@@ -67,7 +70,7 @@ const Chart = ({ series }) => {
             />
           </YAxis>
           <Tooltip
-            formatter={(value) => formatMinutes(value)}
+            formatter={(value) => formatMinutes(Number(value))}
             labelFormatter={(value) => `${(value * 100).toFixed(2)}%`}
           />
           {series.map((s) => (

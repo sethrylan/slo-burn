@@ -35,7 +35,6 @@ const Form: React.FC<FormProps> = ({ onCalculate }) => {
   };
 
   const handleIsUptimeChange = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log('isUptime', e.target.checked);
     setIsUptime(e.target.checked);
     if (e.target.checked) {
       setEvents('');
@@ -109,7 +108,7 @@ const Form: React.FC<FormProps> = ({ onCalculate }) => {
               <span className="tooltip-icon"><sup>?</sup></span>
               <span className="tooltiptext">
                 Check this box if you are calculating an uptime SLO, with an error 
-                budget of {formatMinutes((1 - (sloTarget / 100)) * (1440 * sloTimeWindow))}
+                budget of {formatMinutes((1 - (sloTarget / 100)) * (1440 * Number(sloTimeWindow)))}
               </span>
             </span>
           </label>

@@ -109,7 +109,7 @@ function App() {
       budgetConsumed = [.02, .05, .10];
     }
 
-    const burnRates = [
+    const burnRates: AlertData[] = [
       // longWindow and shortWindow are in minutes, error budget consumed is in ratio, and burnRate is unitless
       { name: "fast-burn", longWindow: 60, shortWindow: 5, errorBudgetConsumed: budgetConsumed[0] , color: "#FF0000"}, // 1 hour, 5 minutes
       { name: "mid-burn", longWindow: 360, shortWindow: 30, errorBudgetConsumed: budgetConsumed[1], color: "#C64B8C"}, // 6 hours, 30 minutes
@@ -126,7 +126,6 @@ function App() {
 
       if (isUptime) {
         rate.consumed = Number((errorBudget * numericSloTimeWindow * 1440 * rate.errorBudgetConsumed).toFixed(1)) + ' minutes';
-        console.log(rate.consumed)
       }
 
       if (events) {
