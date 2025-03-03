@@ -5,6 +5,8 @@ import Table from './components/table'
 import Chart from './components/chart'
 import './app.css'
 import { AlertData } from './types'
+import { ThemeProvider } from "./components/theme-provider"
+import { ThemeToggle } from "./components/theme-toggle"
 
 interface CalculateParams {
   sloTarget: number;
@@ -165,12 +167,15 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <h1>Multiwindow Burn Rate Alerts</h1>
-      <Form onCalculate={calculateAlerts} />
-      <Table data={tableData} />
-      <Chart series={graphData} />
-    </div>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <div className="App">
+        <ThemeToggle />
+        <h1>Multiwindow Burn Rate Alerts</h1>
+        <Form onCalculate={calculateAlerts} />
+        <Table data={tableData} />
+        <Chart series={graphData} />
+      </div>
+    </ThemeProvider>
   );
 }
 

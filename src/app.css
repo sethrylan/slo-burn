@@ -36,3 +36,101 @@
     transform: rotate(360deg);
   }
 }
+
+/* Theme toggle styles */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.theme-button {
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+}
+
+.theme-button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode styles */
+:root {
+  --background-color: #ffffff;
+  --text-color: #333333;
+  --card-background: #f9f9f9;
+  --border-color: #dddddd;
+  --primary-color: #009879;
+  --hover-color: #007f67;
+  --table-stripe: #f3f3f3;
+  --tooltip-bg: #555;
+  --tooltip-color: #fff;
+  --button-text: #fff;
+}
+
+.dark {
+  --background-color: #1a1a1a;
+  --text-color: #e0e0e0;
+  --card-background: #2a2a2a;
+  --border-color: #444444;
+  --primary-color: #00b894;
+  --hover-color: #00a382;
+  --table-stripe: #242424;
+  --tooltip-bg: #666;
+  --tooltip-color: #f0f0f0;
+  --button-text: #f0f0f0;
+}
+
+body {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Update component styles to use CSS variables */
+.alert-form {
+  background-color: var(--card-background);
+  border-color: var(--border-color);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: var(--button-text);
+}
+
+button:hover {
+  background-color: var(--hover-color);
+}
+
+.alert-table {
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+}
+
+.alert-table thead tr {
+  background-color: var(--primary-color);
+}
+
+.alert-table tbody tr {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.alert-table tbody tr:nth-of-type(even) {
+  background-color: var(--table-stripe);
+}
+
+.alert-table tbody tr:last-of-type {
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.tooltip .tooltiptext {
+  background-color: var(--tooltip-bg);
+  color: var(--tooltip-color);
+}
