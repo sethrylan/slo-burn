@@ -1,9 +1,9 @@
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { formatNumberWithLocale } from './utils/format'
-import Form from './components/Form'
-import Table from './components/Table'
-import Chart from './components/Chart'
-import './App.css'
+import Form from './components/form'
+import Table from './components/table'
+import Chart from './components/chart'
+import './app.css'
 import { AlertData } from './types'
 
 interface CalculateParams {

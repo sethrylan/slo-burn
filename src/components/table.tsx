@@ -1,6 +1,5 @@
-import React from 'react'
 import { formatMinutes } from '../utils/format'
-import './Table.css'
+import './table.css'
 
 const Table = ({ data }) => {
   return (

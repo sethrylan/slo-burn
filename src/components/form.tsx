@@ -1,7 +1,7 @@
 import React, { useEffect, useState, ChangeEvent } from 'react';
 import { formatMinutes } from '../utils/format';
 import { useSearchParamsState } from '../utils/state';
-import './Form.css';
+import './form.css';
 import { FormProps } from '../types';
 
 const Form: React.FC<FormProps> = ({ onCalculate }) => {
