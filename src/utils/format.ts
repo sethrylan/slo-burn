@@ -1,9 +1,9 @@
-export const formatNumberWithLocale = (number) => {
+export const formatNumberWithLocale = (number: number | string): string => {
   const userLocale = navigator.language || 'en-US' // Default to 'en-US' if locale is not detected
-  return new Intl.NumberFormat(userLocale).format(number)
+  return new Intl.NumberFormat(userLocale).format(Number(number))
 }
 
-export const formatMinutes = (minutes, withRemainder = true) => {
+export const formatMinutes = (minutes: number, withRemainder = true): string => {
   if (Number.isNaN(minutes)) {
     return '0m'
   }

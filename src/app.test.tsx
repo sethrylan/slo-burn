@@ -1,4 +1,4 @@
-import { calculateBurnRate, lowSloFactor } from './App';
+import { calculateBurnRate } from './app';
 import { expect, test } from 'vitest'
 
 test('30d-slow', () => {
