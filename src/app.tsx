@@ -1,11 +1,20 @@
-import React, { useState, useCallback } from 'react'
+import { useState, useCallback } from 'react'
 import { formatNumberWithLocale } from './utils/format'
-import Form from './components/Form'
-import Table from './components/Table'
-import Chart from './components/Chart'
-import './App.css'
+import Form from './components/form'
+import Table from './components/table'
+import Chart from './components/chart'
+import './app.css'
+import { AlertData } from './types'
 
-const errorRates = [
+interface CalculateParams {
+  sloTarget: number;
+  sloTimeWindow: string | number;
+  events: number;
+  isUptime: boolean;
+}
+
+// Define the error rates array
+const errorRates: number[] = [
   0.00001,
   0.00002,
   0.00003,
@@ -58,42 +67,49 @@ const errorRates = [
 ]
 
 // Calculate the time it takes to consume the error budget at the given burn rate
-function timeToConsumeSLO(burnRate, sloTimeWindow) {
-  return sloTimeWindow / burnRate
-}
-
-// Calculate the burn rate at the given error rate and error budget.
-// E.g., error rate of 0.02 (2%) and the error budget is 0.001 (from a 99.9% SLO), the burn rate is 20.
-function burnRate(errorRate, errorBudget) {
-  return errorRate / errorBudget
+function timeToConsumeSLO(burnRate: number, sloTimeWindow: number): number {
+  return sloTimeWindow / burnRate;
 }
 
 // Calculate the burn rate at the given error rate and error budget
-// longWindow is in minutes, sloTimeWindow is in days
-export function calculateBurnRate(sloTimeWindow, errorBudgetConsumed, longWindow) {
+function burnRate(errorRate: number, errorBudget: number): number {
+  return errorRate / errorBudget;
+}
+
+// Calculate the burn rate at the given error rate and error budget
+export function calculateBurnRate(
+  sloTimeWindow: number, 
+  errorBudgetConsumed: number, 
+  longWindow: number
+): number {
   return Number((((sloTimeWindow * 24) * errorBudgetConsumed) / (longWindow / 60)).toFixed(1));
 }
 
 function App() {
-  const [tableData, setTableData] = useState([]);
-  const [graphData, setGraphData] = useState([]);
+  const [tableData, setTableData] = useState<AlertData[]>([]);
+  const [graphData, setGraphData] = useState<any[]>([]); // Consider creating a type for this
 
-  const calculateAlerts = useCallback(({ sloTarget, sloTimeWindow, events, isUptime }) => {
+  const calculateAlerts = useCallback(({ sloTarget, sloTimeWindow, events, isUptime }: CalculateParams) => {
     if (!sloTarget || !sloTimeWindow) return;
+    
+    const numericSloTimeWindow = typeof sloTimeWindow === 'string' 
+      ? parseInt(sloTimeWindow, 10) 
+      : sloTimeWindow;
+      
     const errorBudget = 1 - sloTarget / 100;
-  
+    
     var budgetConsumed;
     // Theoretical error budget consumption
     // See https://docs.datadoghq.com/service_management/service_level_objectives/burn_rate
-    if (sloTimeWindow < 14) {
+    if (numericSloTimeWindow < 14) {
       budgetConsumed = [.10, .20, .40];
-    } else if (sloTimeWindow > 45) {
+    } else if (numericSloTimeWindow > 45) {
       budgetConsumed = [.01, .03, .05];
     } else {
       budgetConsumed = [.02, .05, .10];
     }
 
-    const burnRates = [
+    const burnRates: AlertData[] = [
       // longWindow and shortWindow are in minutes, error budget consumed is in ratio, and burnRate is unitless
       { name: "fast-burn", longWindow: 60, shortWindow: 5, errorBudgetConsumed: budgetConsumed[0] , color: "#FF0000"}, // 1 hour, 5 minutes
       { name: "mid-burn", longWindow: 360, shortWindow: 30, errorBudgetConsumed: budgetConsumed[1], color: "#C64B8C"}, // 6 hours, 30 minutes
@@ -109,17 +125,16 @@ function App() {
       }
 
       if (isUptime) {
-        rate.consumed = Number((errorBudget * sloTimeWindow * 1440 * rate.errorBudgetConsumed).toFixed(1)) + ' minutes';
-        console.log(rate.consumed)
+        rate.consumed = Number((errorBudget * numericSloTimeWindow * 1440 * rate.errorBudgetConsumed).toFixed(1)) + ' minutes';
       }
 
       if (events) {
         rate.consumed = formatNumberWithLocale(events * errorBudget * rate.errorBudgetConsumed) + ' events';
       }
 
-      rate.burnRate = calculateBurnRate(sloTimeWindow, rate.errorBudgetConsumed, rate.longWindow);
+      rate.burnRate = calculateBurnRate(numericSloTimeWindow, rate.errorBudgetConsumed, rate.longWindow);
       rate.errorRate = rate.burnRate * errorBudget;
-      rate.exhaustionIn = timeToConsumeSLO(rate.burnRate, sloTimeWindow * 1440);
+      rate.exhaustionIn = timeToConsumeSLO(rate.burnRate, numericSloTimeWindow * 1440);
     });
     setTableData(burnRates);
 
@@ -130,7 +145,7 @@ function App() {
         data: errorRates.map(errorRate => {
           const minutes = timeToConsumeSLO(
             burnRate(errorRate, errorBudget),
-            sloTimeWindow * 1440 * r.errorBudgetConsumed
+            numericSloTimeWindow * 1440 * r.errorBudgetConsumed
           )
           if (minutes <= r.longWindow) {
             return {

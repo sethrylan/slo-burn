@@ -1,34 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, ChangeEvent } from 'react';
 import { formatMinutes } from '../utils/format';
 import { useSearchParamsState } from '../utils/state';
-import './Form.css';
+import './form.css';
+import { FormProps } from '../types';
 
-const Form = ({ onCalculate }) => {
-  const [sloTarget, setSloTarget] = useSearchParamsState('slo', 99.9);
-  const [sloTimeWindow, setSloTimeWindow] = useSearchParamsState('days', '30');
-  const [events, setEvents] = useSearchParamsState('events', '');
+const Form: React.FC<FormProps> = ({ onCalculate }) => {
+  const [sloTarget, setSloTarget] = useSearchParamsState<number>('slo', 99.9);
+  const [sloTimeWindow, setSloTimeWindow] = useSearchParamsState<string>('days', '30');
+  const [events, setEvents] = useSearchParamsState<string>('events', '');
   const [isUptime, setIsUptime] = useState(false);
 
   useEffect(() => {
     // Convert decimal string input (in millions) to numeric value for calculation
     const numericEvents = parseFloat(events) * 1000000 || 0;
-    onCalculate({ sloTarget, sloTimeWindow, events: numericEvents, isUptime });
+    onCalculate({ 
+      sloTarget: Number(sloTarget), 
+      sloTimeWindow, 
+      events: numericEvents, 
+      isUptime 
+    });
   }, [sloTarget, sloTimeWindow, events, isUptime, onCalculate]);
 
-  const handleSloTargetChange = (e) => {
-    setSloTarget(e.target.value);
+  const handleSloTargetChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSloTarget(Number(e.target.value));
   };
 
-  const handleSloTimeWindowChange = (e) => {
+  const handleSloTimeWindowChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSloTimeWindow(e.target.value);
   };
 
-  const handleEventsChange = (e) => {
+  const handleEventsChange = (e: ChangeEvent<HTMLInputElement>) => {
     const sanitizedValue = e.target.value.replace(/[^0-9.]/g, '');
     setEvents(sanitizedValue);
   };
 
-  const handleIsUptimeChange = (e) => {
+  const handleIsUptimeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setIsUptime(e.target.checked);
     if (e.target.checked) {
       setEvents('');
@@ -102,7 +108,7 @@ const Form = ({ onCalculate }) => {
               <span className="tooltip-icon"><sup>?</sup></span>
               <span className="tooltiptext">
                 Check this box if you are calculating an uptime SLO, with an error 
-                budget of {formatMinutes((1 - (sloTarget / 100)) * (1440 * sloTimeWindow))}
+                budget of {formatMinutes((1 - (sloTarget / 100)) * (1440 * Number(sloTimeWindow)))}
               </span>
             </span>
           </label>

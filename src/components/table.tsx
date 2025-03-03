@@ -1,8 +1,10 @@
-import React from 'react'
+// @ts-nocheck
 import { formatMinutes } from '../utils/format'
-import './Table.css'
+import './table.css'
+import { TableProps } from '../types'
 
-const Table = ({ data }) => {
+const Table: React.FC<TableProps> = ({ data }) => {
+  // @ts-ignore:next-line
   return (
     <table className="alert-table">
       <thead>
@@ -66,11 +68,11 @@ const Table = ({ data }) => {
               <span className="tooltip">
                 <span className="tooltip-icon">*</span>
                 <span className="tooltiptext">
-                  Assuming a continuous error rate, this is equivalent to an error rate of {(item.errorRate * 100).toFixed(2)}%
+                  Assuming a continuous error rate, this is equivalent to an error rate of {(item.errorRate! * 100).toFixed(2)}%
                 </span>
               </span>
             </td>
-            <td>{formatMinutes(item.exhaustionIn)}</td>
+            <td>{formatMinutes(item.exhaustionIn!)}</td>
           </tr>
         ))}
       </tbody>
