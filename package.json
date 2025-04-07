@@ -8,8 +8,8 @@
     "globals": "^16.0.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.4.1",
-    "recharts": "^2.15.1",
+    "react-router-dom": "^7.5.0",
+    "recharts": "^2.15.2",
     "vite": "^6.2.5",
     "vite-tsconfig-paths": "^5.1.4",
     "web-vitals": "^4.2.4"
