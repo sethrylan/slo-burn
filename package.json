@@ -5,14 +5,14 @@
   "homepage": "https://sethrylan.org/slo-burn",
   "dependencies": {
     "@vitejs/plugin-react": "^4.4.1",
-    "globals": "^16.0.0",
+    "globals": "^16.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
-    "react-router-dom": "^7.5.3",
+    "react-router-dom": "^7.6.0",
     "recharts": "^2.15.3",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
-    "web-vitals": "^4.2.4"
+    "web-vitals": "^5.0.1"
   },
   "scripts": {
     "check-types": "tsc --noemit",
