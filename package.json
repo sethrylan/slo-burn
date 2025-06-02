@@ -12,7 +12,7 @@
     "recharts": "^2.15.3",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
-    "web-vitals": "^5.0.1"
+    "web-vitals": "^5.0.2"
   },
   "scripts": {
     "check-types": "tsc --noemit",
