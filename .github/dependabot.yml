@@ -1,24 +1,33 @@
 version: 2
 updates:
-  - package-ecosystem: "npm"
-    # Look for `package.json` and `lock` files in the `root` directory
+  - package-ecosystem: gomod
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: weekly
+    commit-message:
+      prefix: "chore(deps): "
+    cooldown:
+      default-days: 7
     groups:
-      production-dependencies:
-        dependency-type: "production"
-      development-dependencies:
-        dependency-type: "development"
-    commit-message:
-      prefix: "chore: "
+      actions-deps:
+        patterns:
+          - "*"
 
-  # Enable version updates for GitHub Actions
-  - package-ecosystem: "github-actions"
-    # Workflow files stored in the default location of `.github/workflows`
-    # You don't need to specify `/.github/workflows` for `directory`. You can use `directory: "/"`.
-    directory: "/"
+  - package-ecosystem: npm
+    directory: /
     schedule:
-      interval: "weekly"
+      interval: weekly
+    cooldown:
+      default-days: 7
+    groups:
+      npm-development:
+        dependency-type: development
+        update-types:
+          - minor
+          - patch
+      npm-production:
+        dependency-type: production
+        update-types:
+          - patch
     commit-message:
-      prefix: "chore: "
+      prefix: "chore(deps): "
