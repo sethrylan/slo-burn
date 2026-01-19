@@ -4,15 +4,15 @@
   "private": true,
   "homepage": "https://sethrylan.org/slo-burn",
   "dependencies": {
-    "@vitejs/plugin-react": "^4.5.2",
-    "globals": "^16.2.0",
-    "react": "^19.1.0",
-    "react-dom": "^19.1.0",
-    "react-router-dom": "^7.6.2",
-    "recharts": "^2.15.3",
-    "vite": "^6.3.5",
-    "vite-tsconfig-paths": "^5.1.4",
-    "web-vitals": "^5.0.3"
+    "@vitejs/plugin-react": "^5.1.2",
+    "globals": "^17.0.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "react-router-dom": "^7.12.0",
+    "recharts": "^3.6.0",
+    "vite": "^7.3.1",
+    "vite-tsconfig-paths": "^6.0.4",
+    "web-vitals": "^5.1.0"
   },
   "scripts": {
     "check-types": "tsc --noemit",
@@ -48,12 +48,12 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^24.2.1",
-    "@types/react": "^19.1.6",
-    "@types/react-dom": "^19.1.6",
-    "prettier": "^3.6.2",
-    "typescript": "^5.9.2",
+    "@types/node": "^25.0.6",
+    "@types/react": "^19.2.8",
+    "@types/react-dom": "^19.2.3",
+    "prettier": "^3.7.4",
+    "typescript": "^5.9.3",
     "vite-plugin-eslint": "^1.8.1",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.17"
   }
 }
