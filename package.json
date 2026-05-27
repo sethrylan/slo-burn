@@ -4,13 +4,13 @@
   "private": true,
   "homepage": "https://sethrylan.org/slo-burn",
   "dependencies": {
-    "@vitejs/plugin-react": "^6.0.1",
+    "@vitejs/plugin-react": "^6.0.2",
     "globals": "^17.5.0",
-    "react": "^19.2.5",
-    "react-dom": "^19.2.5",
+    "react": "^19.2.6",
+    "react-dom": "^19.2.6",
     "react-router-dom": "^7.14.2",
     "recharts": "^3.8.1",
-    "vite": "^8.0.9",
+    "vite": "^8.0.13",
     "vite-tsconfig-paths": "^6.1.1",
     "web-vitals": "^5.2.0"
   },
@@ -49,7 +49,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.9.1",
-    "@types/react": "^19.2.14",
+    "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "prettier": "^3.8.3",
     "typescript": "^6.0.3",
