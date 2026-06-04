@@ -10,7 +10,7 @@
     "react-dom": "^19.2.6",
     "react-router-dom": "^7.14.2",
     "recharts": "^3.8.1",
-    "vite": "^8.0.13",
+    "vite": "^8.0.14",
     "vite-tsconfig-paths": "^6.1.1",
     "web-vitals": "^5.2.0"
   },
