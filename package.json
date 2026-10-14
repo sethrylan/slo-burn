@@ -7,7 +7,7 @@
     "@vitejs/plugin-react": "^6.1.1",
     "globals": "^17.11.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react-dom": "^19.3.0",
     "react-router-dom": "^7.18.3",
     "recharts": "^3.10.1",
     "vite": "^8.3.2",
@@ -50,7 +50,7 @@
   "devDependencies": {
     "@types/node": "^26.6.4",
     "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.7",
+    "@types/react-dom": "^19.3.0",
     "prettier": "^3.9.7",
     "typescript": "^6.0.3",
     "vite-plugin-eslint": "^1.8.1",
